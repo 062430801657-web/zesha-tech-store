@@ -2,7 +2,10 @@ import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
-DB_PATH = BASE_DIR / "data" / "zts_store.db"
+if os.environ.get("VERCEL"):
+    DB_PATH = Path("/tmp/zts_store.db")
+else:
+    DB_PATH = BASE_DIR / "data" / "zts_store.db"
 
 # Server Configuration
 PORT = int(os.environ.get("PORT", 8000))
