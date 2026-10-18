@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ store_name }} - Top-Up Game, Akun Premium & SMM Otomatis 24 Jam</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#080C15',
+                        cardbg: '#0E1626',
+                        cardborder: '#1E293B',
+                        cyanaccent: '#00F0FF',
+                        goldaccent: '#FFD700',
+                        purpleaccent: '#9333EA',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #080C15;
+            color: #F8FAFC;
+        }
+        .font-brand {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .glow-cyan {
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.25);
+        }
+        .glow-card:hover {
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
+            border-color: #00F0FF;
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-cyan-500 selection:text-black">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-gradient-to-r from-cyan-950 via-slate-900 to-purple-950 border-b border-cyan-500/20 py-2 px-4 text-xs font-medium text-center text-cyan-300 flex items-center justify-center gap-2">
+        <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+        <span>⚡ <strong>ZTS HUB OTONOM:</strong> Server H2H 24 Jam Online • Top-Up Game 3 Detik Masuk • Canva & Netflix Bergaransi Resmi</span>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-40 bg-darkbg/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center text-black font-black text-xl shadow-lg shadow-cyan-500/30 font-brand">
+                    Z
+                </div>
+                <div>
+                    <h1 class="text-lg font-black tracking-wider text-white font-brand flex items-center gap-2">
+                        ZTS <span class="text-cyan-400">HUB</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-800 font-normal">v1.0 Cloud</span>
+                    </h1>
+                    <p class="text-[11px] text-slate-400">Owner: <strong class="text-slate-200">{{ store_owner }}</strong></p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <a href="https://wa.me/{{ owner_whatsapp }}?text=Halo%20Prince%20Zesha,%20saya%20butuh%20bantuan%20terkait%20pesanan%20di%20ZTS%20Hub" target="_blank" class="px-3 py-1.5 rounded-lg bg-emerald-950/70 text-emerald-400 border border-emerald-500/30 text-xs font-semibold hover:bg-emerald-900 transition flex items-center gap-1.5">
+                    <i class="fa-brands fa-whatsapp text-sm"></i>
+                    <span class="hidden sm:inline">Bantuan CS WA</span>
+                </a>
+                <a href="/admin" class="px-3 py-1.5 rounded-lg bg-slate-800/80 text-slate-300 border border-slate-700 text-xs font-semibold hover:bg-slate-700 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-lock text-[10px]"></i>
+                    <span>Admin</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="max-w-6xl mx-auto px-4 pt-8 pb-6 text-center">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-700 text-xs text-slate-300 mb-4">
+            <i class="fa-solid fa-shield-halved text-cyan-400"></i>
+            <span>Transaksi 100% Otomatis QRIS Dinamis • Anti-Pending</span>
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-black text-white font-brand tracking-tight max-w-3xl mx-auto leading-tight">
+            Pusat Top-Up Game, Akun Premium & SMM Tercepat
+        </h2>
+        <p class="text-slate-400 text-sm sm:text-base mt-3 max-w-2xl mx-auto">
+            Dapatkan harga tangan pertama langsung dari distributor induk H2H. Bayar hitungan detik via QRIS all-payment (DANA, BCA, GoPay, SeaBank).
+        </p>
+
+        <!-- Category Selector Tabs -->
+        <div class="flex items-center justify-center gap-2 sm:gap-3 mt-8 overflow-x-auto pb-2">
+            <button onclick="filterCategory('all')" id="tab-all" class="category-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-cyan-500 text-black shadow-lg shadow-cyan-500/30 transition flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-layer-group"></i> Semua Layanan
+            </button>
+            <button onclick="filterCategory('game')" id="tab-game" class="category-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-cardbg text-slate-300 border border-cardborder hover:border-slate-600 transition flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-gamepad text-cyan-400"></i> Top-Up Game H2H
+            </button>
+            <button onclick="filterCategory('premium')" id="tab-premium" class="category-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-cardbg text-slate-300 border border-cardborder hover:border-slate-600 transition flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-crown text-yellow-400"></i> Akun Premium
+            </button>
+            <button onclick="filterCategory('smm')" id="tab-smm" class="category-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-cardbg text-slate-300 border border-cardborder hover:border-slate-600 transition flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-chart-line text-purple-400"></i> SMM Followers
+            </button>
+        </div>
+    </section>
+
+    <!-- Product Catalog Grid -->
+    <main class="max-w-6xl mx-auto px-4 pb-20 flex-grow">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="products-container">
+            {% for p in products %}
+            <div class="product-card bg-cardbg rounded-2xl p-5 border border-cardborder glow-card transition duration-300 flex flex-col justify-between" data-category="{{ p.category }}">
+                <div>
+                    <!-- Badge & Category Header -->
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider
+                            {% if p.category == 'game' %} bg-cyan-950 text-cyan-300 border border-cyan-800
+                            {% elif p.category == 'premium' %} bg-yellow-950 text-yellow-300 border border-yellow-800
+                            {% else %} bg-purple-950 text-purple-300 border border-purple-800 {% endif %}">
+                            {{ p.brand }}
+                        </span>
+                        <span class="text-[10px] text-emerald-400 font-semibold flex items-center gap-1">
+                            <i class="fa-solid fa-bolt"></i> Otomatis H2H
+                        </span>
+                    </div>
+
+                    <!-- Product Name -->
+                    <h3 class="text-base font-bold text-white mb-2 leading-snug">{{ p.name }}</h3>
+                    <p class="text-xs text-slate-400 mb-4 line-clamp-2">{{ p.description }}</p>
+                </div>
+
+                <div>
+                    <!-- Price and Buy Button -->
+                    <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                        <div>
+                            <span class="text-[10px] text-slate-400 block">Harga Spesial</span>
+                            <span class="text-lg font-black text-cyan-400 font-brand">Rp {{ "{:,}".format(p.selling_price).replace(',', '.') }}</span>
+                        </div>
+                        <button onclick='openOrderModal({{ p | tojson }})' class="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-extrabold text-xs shadow-md shadow-cyan-500/20 transition flex items-center gap-1.5">
+                            <span>Order</span>
+                            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+
+    <!-- Modal Order Popup -->
+    <div id="order-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-cardbg border border-cyan-500/30 rounded-2xl max-w-md w-full p-6 shadow-2xl relative glow-cyan animate-fade-in">
+            <!-- Close Button -->
+            <button onclick="closeOrderModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Modal Header -->
+            <div class="mb-4">
+                <span id="modal-product-brand" class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-800 uppercase"></span>
+                <h3 id="modal-product-name" class="text-lg font-black text-white mt-2"></h3>
+                <p class="text-xs text-cyan-400 font-bold mt-1" id="modal-product-price"></p>
+            </div>
+
+            <!-- Form Inputs -->
+            <form id="order-form" onsubmit="submitOrder(event)" class="space-y-4">
+                <input type="hidden" id="modal-product-code">
+                
+                <!-- Input Akun Game (ID & Zone) -->
+                <div id="field-game-inputs" class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">User ID Game</label>
+                        <input type="text" id="input-game-id" placeholder="Contoh: 12345678" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-cyan-400">
+                    </div>
+                    <div id="field-zone-container">
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Zone ID / Server ID</label>
+                        <input type="text" id="input-zone-id" placeholder="Contoh: 2024" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-cyan-400">
+                    </div>
+                    <button type="button" onclick="checkNickname()" class="w-full py-1.5 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-cyan-300 border border-cyan-500/20 flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-magnifying-glass"></i> Cek Nickname Akun
+                    </button>
+                    <div id="nickname-result" class="hidden text-xs p-2 rounded-lg bg-emerald-950/60 border border-emerald-500/30 text-emerald-300"></div>
+                </div>
+
+                <!-- Input Email untuk Akun Premium -->
+                <div id="field-email-container" class="hidden">
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Email Anda (Untuk Terima Akun / Invite)</label>
+                    <input type="email" id="input-email" placeholder="nama@gmail.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-cyan-400">
+                </div>
+
+                <!-- Input Username untuk SMM -->
+                <div id="field-username-container" class="hidden">
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Username / Link Target</label>
+                    <input type="text" id="input-username" placeholder="username_tanpa_tanda_at" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-cyan-400">
+                </div>
+
+                <!-- Nomor WhatsApp Pembeli (Wajib untuk notifikasi) -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Nomor WhatsApp Aktif</label>
+                    <input type="text" id="input-whatsapp" required placeholder="08xxxxxxxxxx" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-cyan-400">
+                    <span class="text-[10px] text-slate-400 block mt-1">Struk QRIS & data akun akan otomatis terkirim ke nomor ini.</span>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" id="btn-submit-order" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-black text-sm shadow-lg shadow-cyan-500/30 transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-qrcode"></i> Lanjut Pembayaran QRIS
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 bg-slate-950/60 py-6 text-center text-xs text-slate-400">
+        <p>© 2026 <strong>{{ store_name }}</strong>. Dikembangkan secara mandiri oleh Rexa AI untuk <strong>{{ store_owner }}</strong>.</p>
+        <p class="text-[11px] text-slate-400 mt-1">Hosting 24/7 Serverless Container • Host-to-Host Distributor Resmi Indonesia.</p>
+    </footer>
+
+    <script>
+        let currentSelectedProduct = null;
+
+        function filterCategory(cat) {
+            const tabs = document.querySelectorAll('.category-tab');
+            tabs.forEach(t => {
+                t.classList.remove('bg-cyan-500', 'text-black', 'shadow-lg');
+                t.classList.add('bg-cardbg', 'text-slate-300');
+            });
+            const activeTab = document.getElementById('tab-' + cat);
+            if (activeTab) {
+                activeTab.classList.remove('bg-cardbg', 'text-slate-300');
+                activeTab.classList.add('bg-cyan-500', 'text-black', 'shadow-lg');
+            }
+
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach(c => {
+                if (cat === 'all' || c.getAttribute('data-category') === cat) {
+                    c.classList.remove('hidden');
+                } else {
+                    c.classList.add('hidden');
+                }
+            });
+        }
+
+        function openOrderModal(product) {
+            currentSelectedProduct = product;
+            document.getElementById('modal-product-brand').innerText = product.brand;
+            document.getElementById('modal-product-name').innerText = product.name;
+            document.getElementById('modal-product-price').innerText = 'Rp ' + Number(product.selling_price).toLocaleString('id-ID');
+            document.getElementById('modal-product-code').value = product.code;
+
+            // Atur input field berdasarkan jenis input
+            const gameFields = document.getElementById('field-game-inputs');
+            const zoneContainer = document.getElementById('field-zone-container');
+            const emailContainer = document.getElementById('field-email-container');
+            const usernameContainer = document.getElementById('field-username-container');
+            const nicknameResult = document.getElementById('nickname-result');
+            nicknameResult.classList.add('hidden');
+
+            gameFields.classList.add('hidden');
+            emailContainer.classList.add('hidden');
+            usernameContainer.classList.add('hidden');
+
+            if (product.input_type === 'game_id_zone') {
+                gameFields.classList.remove('hidden');
+                zoneContainer.classList.remove('hidden');
+            } else if (product.input_type === 'id') {
+                gameFields.classList.remove('hidden');
+                zoneContainer.classList.add('hidden');
+            } else if (product.input_type === 'email') {
+                emailContainer.classList.remove('hidden');
+            } else if (product.input_type === 'social_username') {
+                usernameContainer.classList.remove('hidden');
+            }
+
+            const modal = document.getElementById('order-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeOrderModal() {
+            const modal = document.getElementById('order-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        async function checkNickname() {
+            const userId = document.getElementById('input-game-id').value.trim();
+            const zoneId = document.getElementById('input-zone-id').value.trim();
+            if (!userId) {
+                alert('Silakan isi User ID Game terlebih dahulu!');
+                return;
+            }
+
+            const resDiv = document.getElementById('nickname-result');
+            resDiv.innerText = '⚡ Memeriksa akun di database server...';
+            resDiv.classList.remove('hidden');
+
+            try {
+                const resp = await fetch('/api/order/check-id', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        brand: currentSelectedProduct.brand,
+                        user_id: userId,
+                        zone_id: zoneId
+                    })
+                });
+                const data = await resp.json();
+                if (data.status) {
+                    resDiv.innerHTML = '✅ <strong>Akun Valid:</strong> ' + data.nickname + ' (ID: ' + userId + (zoneId ? ' / ' + zoneId : '') + ')';
+                } else {
+                    resDiv.innerHTML = '❌ Akun tidak ditemukan di server.';
+                }
+            } catch(e) {
+                resDiv.innerText = 'Gagal terhubung ke pengecekan ID.';
+            }
+        }
+
+        async function submitOrder(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-submit-order');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyiapkan QRIS...';
+
+            let target = '';
+            let zone = '';
+            if (currentSelectedProduct.input_type.includes('game') || currentSelectedProduct.input_type === 'id') {
+                target = document.getElementById('input-game-id').value.trim();
+                zone = document.getElementById('input-zone-id').value.trim();
+            } else if (currentSelectedProduct.input_type === 'email') {
+                target = document.getElementById('input-email').value.trim();
+            } else {
+                target = document.getElementById('input-username').value.trim();
+            }
+
+            const wa = document.getElementById('input-whatsapp').value.trim();
+
+            try {
+                const resp = await fetch('/api/order/create', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        product_code: currentSelectedProduct.code,
+                        target_account: target,
+                        zone_id: zone,
+                        buyer_whatsapp: wa
+                    })
+                });
+                const data = await resp.json();
+                if (data.success) {
+                    window.location.href = '/order/' + data.invoice;
+                } else {
+                    alert('Gagal membuat pesanan: ' + data.message);
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fa-solid fa-qrcode"></i> Lanjut Pembayaran QRIS';
+                }
+            } catch(err) {
+                alert('Kendala jaringan. Coba lagi.');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-qrcode"></i> Lanjut Pembayaran QRIS';
+            }
+        }
+    </script>
+</body>
+</html>

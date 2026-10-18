@@ -1,0 +1,34 @@
+name: zts-hub
+services:
+  - name: zts-store
+    type: web
+    git:
+      repository: github.com/zesha666/zesha-tech-store
+      branch: main
+    build:
+      dockerfile: Dockerfile
+    instance_type: free
+    regions:
+      - fra
+    ports:
+      - port: 8000
+        path: /
+    routes:
+      - path: /
+        port: 8000
+    health_checks:
+      - http:
+          port: 8000
+          path: /health
+        interval: 30
+        timeout: 5
+        restart_limit: 3
+    env:
+      - key: PROVIDER_MODE
+        value: sandbox
+      - key: STORE_NAME
+        value: "ZTS Hub - Zesha Tech Store"
+      - key: STORE_OWNER
+        value: "Prince Zesha"
+      - key: OWNER_WHATSAPP
+        value: "6282183872081"
