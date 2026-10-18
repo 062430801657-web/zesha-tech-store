@@ -19,6 +19,10 @@ STORE_TAGLINE = "Pusat Top-Up Game, Akun Premium & SMM Otomatis 24 Jam"
 STORE_OWNER = "Prince Zesha"
 OWNER_WHATSAPP = "6282183872081"
 
+# Cloud Persistent Storage (GitHub Gist Integration)
+GIST_ID = os.environ.get("GIST_ID", "0c174a195546e232fcdc0ec4cafc5116")
+GH_STORAGE_TOKEN = os.environ.get("GH_STORAGE_TOKEN", "")
+
 # Provider Modes: 'sandbox' (simulasi otomatis) atau 'live' (tembak API nyata)
 PROVIDER_MODE = os.environ.get("PROVIDER_MODE", "sandbox")
 

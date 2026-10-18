@@ -2,7 +2,54 @@ import sqlite3
 import json
 import time
 from datetime import datetime
-from config import DB_PATH
+import urllib.request
+from config import DB_PATH, GIST_ID, GH_STORAGE_TOKEN
+
+def _get_cloud_headers():
+    token = GH_STORAGE_TOKEN
+    if not token:
+        # Fallback lokal jika dijalankan di mesin Linux dev
+        try:
+            import subprocess
+            token = subprocess.check_output(['gh', 'auth', 'token'], timeout=2).decode().strip()
+        except Exception:
+            token = ""
+    return {
+        'Authorization': f'token {token}',
+        'Accept': 'application/vnd.github.v3+json',
+        'User-Agent': 'ZTS-Hub-Cloud-DB'
+    }
+
+def _fetch_all_cloud_orders():
+    if not GIST_ID:
+        return {}
+    try:
+        req = urllib.request.Request(
+            f'https://api.github.com/gists/{GIST_ID}',
+            headers=_get_cloud_headers()
+        )
+        with urllib.request.urlopen(req, timeout=3.5) as resp:
+            data = json.loads(resp.read().decode())
+            return json.loads(data['files']['orders.json']['content'])
+    except Exception:
+        return {}
+
+def _save_order_to_cloud(order_dict):
+    if not GIST_ID:
+        return False
+    try:
+        orders = _fetch_all_cloud_orders()
+        orders[order_dict['invoice']] = order_dict
+        req = urllib.request.Request(
+            f'https://api.github.com/gists/{GIST_ID}',
+            headers=_get_cloud_headers(),
+            data=json.dumps({'files': {'orders.json': {'content': json.dumps(orders, indent=2)}}}).encode(),
+            method='PATCH'
+        )
+        with urllib.request.urlopen(req, timeout=3.5) as resp:
+            return True
+    except Exception:
+        return False
 
 def get_db():
     conn = sqlite3.connect(DB_PATH)
@@ -158,6 +205,11 @@ def create_order(order_data):
     ))
     conn.commit()
     conn.close()
+    # Sinkronisasi ke Cloud Storage Gist
+    try:
+        _save_order_to_cloud(dict(order_data))
+    except Exception:
+        pass
 
 def get_order_by_invoice(invoice):
     conn = get_db()
@@ -165,7 +217,50 @@ def get_order_by_invoice(invoice):
     cursor.execute("SELECT * FROM orders WHERE invoice = ?;", (invoice,))
     row = cursor.fetchone()
     conn.close()
-    return dict(row) if row else None
+    if row:
+        return dict(row)
+
+    # Jika tidak ada di SQLite lokal (misal: cold start serverless baru), cari di cloud storage
+    cloud_orders = _fetch_all_cloud_orders()
+    if invoice in cloud_orders:
+        cloud_data = cloud_orders[invoice]
+        # Simpan ke cache SQLite lokal
+        try:
+            conn = get_db()
+            cursor = conn.cursor()
+            cursor.execute("""
+            INSERT OR REPLACE INTO orders (
+                invoice, product_code, product_name, category, target_account, zone_id,
+                buyer_whatsapp, buyer_nickname, modal_price, selling_price, profit,
+                payment_method, qris_data, qris_image, status, sn_delivery, created_at, updated_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+            """, (
+                cloud_data["invoice"],
+                cloud_data.get("product_code", ""),
+                cloud_data.get("product_name", ""),
+                cloud_data.get("category", ""),
+                cloud_data.get("target_account", ""),
+                cloud_data.get("zone_id", ""),
+                cloud_data.get("buyer_whatsapp", ""),
+                cloud_data.get("buyer_nickname", ""),
+                cloud_data.get("modal_price", 0),
+                cloud_data.get("selling_price", 0),
+                cloud_data.get("profit", 0),
+                cloud_data.get("payment_method", "QRIS"),
+                cloud_data.get("qris_data", ""),
+                cloud_data.get("qris_image", ""),
+                cloud_data.get("status", "UNPAID"),
+                cloud_data.get("sn_delivery", None),
+                cloud_data.get("created_at", datetime.now().strftime("%Y-%m-%d %H:%M:%S")),
+                cloud_data.get("updated_at", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            ))
+            conn.commit()
+            conn.close()
+        except Exception:
+            pass
+        return cloud_data
+
+    return None
 
 def update_order_status(invoice, status, sn_delivery=None):
     conn = get_db()
@@ -181,6 +276,18 @@ def update_order_status(invoice, status, sn_delivery=None):
         """, (status, now, invoice))
     conn.commit()
     conn.close()
+
+    # Perbarui data di cloud storage
+    try:
+        cloud_orders = _fetch_all_cloud_orders()
+        if invoice in cloud_orders:
+            cloud_orders[invoice]["status"] = status
+            if sn_delivery:
+                cloud_orders[invoice]["sn_delivery"] = sn_delivery
+            cloud_orders[invoice]["updated_at"] = now
+            _save_order_to_cloud(cloud_orders[invoice])
+    except Exception:
+        pass
 
 def get_store_analytics():
     conn = get_db()
