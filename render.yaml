@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: zts-hub
+    runtime: docker
+    plan: free
+    region: singapore
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: PROVIDER_MODE
+        value: sandbox
+      - key: STORE_NAME
+        value: "ZTS Hub - Zesha Tech Store"
+      - key: STORE_OWNER
+        value: "Prince Zesha"
+      - key: OWNER_WHATSAPP
+        value: "6282183872081"
