@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>{{ store_name }} - Top-Up Game, Akun Premium & SMM Otomatis 24 Jam</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -24,126 +24,130 @@
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap');
+        * { box-sizing: border-box; }
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
+        }
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #080C15;
             color: #F8FAFC;
+            -webkit-tap-highlight-color: transparent;
         }
-        .font-brand {
-            font-family: 'Space Grotesk', sans-serif;
-        }
-        .glow-cyan {
-            box-shadow: 0 0 25px rgba(0, 240, 255, 0.25);
-        }
+        .font-brand { font-family: 'Space Grotesk', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .glow-card:hover {
-            box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.2);
             border-color: #00F0FF;
-            transform: translateY(-3px);
+            transform: translateY(-2px);
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col selection:bg-cyan-500 selection:text-black">
+<body class="min-h-screen flex flex-col selection:bg-cyan-500 selection:text-black pb-16 sm:pb-0">
 
-    <!-- Top Announcement Bar -->
-    <div class="bg-gradient-to-r from-cyan-950 via-slate-900 to-purple-950 border-b border-cyan-500/20 py-2 px-4 text-xs font-medium text-center text-cyan-300 flex items-center justify-center gap-2">
-        <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-        <span>⚡ <strong>ZTS HUB OTONOM:</strong> Server H2H 24 Jam Online • Top-Up Game 3 Detik Masuk • Canva & Netflix Bergaransi Resmi</span>
+    <!-- Top Compact Announcement Ticker -->
+    <div class="bg-gradient-to-r from-cyan-950/80 via-slate-900 to-purple-950/80 border-b border-cyan-500/20 py-1.5 px-3 text-[11px] font-medium text-center text-cyan-300 flex items-center justify-center gap-1.5 overflow-hidden">
+        <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0"></span>
+        <span class="truncate">⚡ <strong>ZTS HUB H2H:</strong> Top-Up Game 3 Detik • Canva & Netflix Garansi Penuh 24 Jam</span>
     </div>
 
     <!-- Navigation Header -->
-    <header class="sticky top-0 z-40 bg-darkbg/90 backdrop-blur-md border-b border-slate-800">
-        <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center text-black font-black text-xl shadow-lg shadow-cyan-500/30 font-brand">
+    <header class="sticky top-0 z-40 bg-darkbg/95 backdrop-blur-md border-b border-slate-800/80">
+        <div class="max-w-6xl mx-auto px-3.5 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-2.5">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center text-black font-black text-lg sm:text-xl shadow-lg shadow-cyan-500/30 font-brand">
                     Z
                 </div>
                 <div>
-                    <h1 class="text-lg font-black tracking-wider text-white font-brand flex items-center gap-2">
+                    <h1 class="text-base sm:text-lg font-black tracking-wide text-white font-brand flex items-center gap-1.5 leading-none">
                         ZTS <span class="text-cyan-400">HUB</span>
-                        <span class="text-[10px] px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-800 font-normal">v1.0 Cloud</span>
                     </h1>
-                    <p class="text-[11px] text-slate-400">Owner: <strong class="text-slate-200">{{ store_owner }}</strong></p>
+                    <p class="text-[10px] text-slate-400 mt-0.5">Top-Up & Digital Store</p>
                 </div>
-            </div>
+            </a>
 
+            <!-- Action Buttons -->
             <div class="flex items-center gap-2">
-                <a href="https://wa.me/{{ owner_whatsapp }}?text=Halo%20Prince%20Zesha,%20saya%20butuh%20bantuan%20terkait%20pesanan%20di%20ZTS%20Hub" target="_blank" class="px-3 py-1.5 rounded-lg bg-emerald-950/70 text-emerald-400 border border-emerald-500/30 text-xs font-semibold hover:bg-emerald-900 transition flex items-center gap-1.5">
+                <button onclick="openLookupModal()" class="px-2.5 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs font-semibold hover:bg-slate-700 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-receipt text-cyan-400 text-xs"></i>
+                    <span class="hidden sm:inline">Lacak Pesanan</span>
+                </button>
+                <a href="https://wa.me/{{ owner_whatsapp }}?text=Halo%20Prince%20Zesha,%20saya%20butuh%20bantuan%20terkait%20pesanan%20di%20ZTS%20Hub" target="_blank" class="px-2.5 py-1.5 rounded-lg bg-emerald-950/70 text-emerald-400 border border-emerald-500/30 text-xs font-semibold hover:bg-emerald-900 transition flex items-center gap-1.5">
                     <i class="fa-brands fa-whatsapp text-sm"></i>
-                    <span class="hidden sm:inline">Bantuan CS WA</span>
-                </a>
-                <a href="/admin" class="px-3 py-1.5 rounded-lg bg-slate-800/80 text-slate-300 border border-slate-700 text-xs font-semibold hover:bg-slate-700 transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-lock text-[10px]"></i>
-                    <span>Admin</span>
+                    <span class="hidden sm:inline">CS WhatsApp</span>
                 </a>
             </div>
         </div>
     </header>
 
-    <!-- Hero Banner -->
-    <section class="max-w-6xl mx-auto px-4 pt-8 pb-6 text-center">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-700 text-xs text-slate-300 mb-4">
-            <i class="fa-solid fa-shield-halved text-cyan-400"></i>
-            <span>Transaksi 100% Otomatis QRIS Dinamis • Anti-Pending</span>
+    <!-- Hero Section -->
+    <section class="max-w-6xl mx-auto px-3.5 sm:px-6 pt-5 sm:pt-8 pb-4 sm:pb-6 text-center">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900 border border-slate-700/80 text-[11px] text-slate-300 mb-3 max-w-full truncate">
+            <i class="fa-solid fa-shield-halved text-cyan-400 flex-shrink-0"></i>
+            <span class="truncate">Transaksi 100% Otomatis QRIS Dinamis</span>
         </div>
-        <h2 class="text-3xl sm:text-5xl font-black text-white font-brand tracking-tight max-w-3xl mx-auto leading-tight">
-            Pusat Top-Up Game, Akun Premium & SMM Tercepat
+        <h2 class="text-xl sm:text-4xl lg:text-5xl font-black text-white font-brand tracking-tight max-w-2xl mx-auto leading-tight break-words px-2">
+            Pusat Top-Up Game, Akun Premium & SMM
         </h2>
-        <p class="text-slate-400 text-sm sm:text-base mt-3 max-w-2xl mx-auto">
-            Dapatkan harga tangan pertama langsung dari distributor induk H2H. Bayar hitungan detik via QRIS all-payment (DANA, BCA, GoPay, SeaBank).
+        <p class="text-slate-400 text-xs sm:text-sm mt-2 max-w-xl mx-auto px-2">
+            Harga tangan pertama distributor resmi H2H. Bayar instan via QRIS (DANA, GoPay, ShopeePay, BCA, SeaBank).
         </p>
 
-        <!-- Category Selector Tabs -->
-        <div class="flex items-center justify-center gap-2 sm:gap-3 mt-8 overflow-x-auto pb-2">
-            <button onclick="filterCategory('all')" id="tab-all" class="category-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-cyan-500 text-black shadow-lg shadow-cyan-500/30 transition flex items-center gap-2 whitespace-nowrap">
-                <i class="fa-solid fa-layer-group"></i> Semua Layanan
+        <!-- Category Selector Pills (Smooth Touch Scroll) -->
+        <div class="flex items-center justify-start sm:justify-center gap-2 mt-5 sm:mt-8 overflow-x-auto no-scrollbar pb-1 px-1">
+            <button onclick="filterCategory('all')" id="tab-all" class="category-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-cyan-500 text-black shadow-md shadow-cyan-500/30 transition flex items-center gap-1.5 flex-shrink-0">
+                <i class="fa-solid fa-layer-group text-[11px]"></i> Semua
             </button>
-            <button onclick="filterCategory('game')" id="tab-game" class="category-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-cardbg text-slate-300 border border-cardborder hover:border-slate-600 transition flex items-center gap-2 whitespace-nowrap">
-                <i class="fa-solid fa-gamepad text-cyan-400"></i> Top-Up Game H2H
+            <button onclick="filterCategory('game')" id="tab-game" class="category-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-cardbg text-slate-300 border border-cardborder hover:border-slate-600 transition flex items-center gap-1.5 flex-shrink-0">
+                <i class="fa-solid fa-gamepad text-cyan-400 text-[11px]"></i> Game H2H
             </button>
-            <button onclick="filterCategory('premium')" id="tab-premium" class="category-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-cardbg text-slate-300 border border-cardborder hover:border-slate-600 transition flex items-center gap-2 whitespace-nowrap">
-                <i class="fa-solid fa-crown text-yellow-400"></i> Akun Premium
+            <button onclick="filterCategory('premium')" id="tab-premium" class="category-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-cardbg text-slate-300 border border-cardborder hover:border-slate-600 transition flex items-center gap-1.5 flex-shrink-0">
+                <i class="fa-solid fa-crown text-yellow-400 text-[11px]"></i> Akun Premium
             </button>
-            <button onclick="filterCategory('smm')" id="tab-smm" class="category-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-cardbg text-slate-300 border border-cardborder hover:border-slate-600 transition flex items-center gap-2 whitespace-nowrap">
-                <i class="fa-solid fa-chart-line text-purple-400"></i> SMM Followers
+            <button onclick="filterCategory('smm')" id="tab-smm" class="category-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-cardbg text-slate-300 border border-cardborder hover:border-slate-600 transition flex items-center gap-1.5 flex-shrink-0">
+                <i class="fa-solid fa-chart-line text-purple-400 text-[11px]"></i> SMM Sosmed
             </button>
         </div>
     </section>
 
-    <!-- Product Catalog Grid -->
-    <main class="max-w-6xl mx-auto px-4 pb-20 flex-grow">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="products-container">
+    <!-- Product Catalog (Modern 2-Column Mobile Grid) -->
+    <main class="max-w-6xl mx-auto px-3 sm:px-6 pb-12 flex-grow">
+        <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4" id="products-container">
             {% for p in products %}
-            <div class="product-card bg-cardbg rounded-2xl p-5 border border-cardborder glow-card transition duration-300 flex flex-col justify-between" data-category="{{ p.category }}">
+            <div onclick='openOrderModal({{ p | tojson }})' class="product-card cursor-pointer bg-cardbg rounded-xl sm:rounded-2xl p-2.5 sm:p-5 border border-cardborder glow-card transition duration-200 flex flex-col justify-between" data-category="{{ p.category }}">
                 <div>
                     <!-- Badge & Category Header -->
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider
+                    <div class="flex items-center justify-between mb-1.5">
+                        <span class="text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full uppercase tracking-wider
                             {% if p.category == 'game' %} bg-cyan-950 text-cyan-300 border border-cyan-800
                             {% elif p.category == 'premium' %} bg-yellow-950 text-yellow-300 border border-yellow-800
                             {% else %} bg-purple-950 text-purple-300 border border-purple-800 {% endif %}">
                             {{ p.brand }}
                         </span>
-                        <span class="text-[10px] text-emerald-400 font-semibold flex items-center gap-1">
-                            <i class="fa-solid fa-bolt"></i> Otomatis H2H
+                        <span class="text-[9px] text-emerald-400 font-semibold flex items-center gap-1">
+                            <i class="fa-solid fa-bolt text-[8px]"></i>
+                            <span class="hidden sm:inline">H2H</span>
                         </span>
                     </div>
 
                     <!-- Product Name -->
-                    <h3 class="text-base font-bold text-white mb-2 leading-snug">{{ p.name }}</h3>
-                    <p class="text-xs text-slate-400 mb-4 line-clamp-2">{{ p.description }}</p>
+                    <h3 class="text-[11px] sm:text-sm font-bold text-white mb-1 leading-tight line-clamp-2">{{ p.name }}</h3>
+                    <p class="text-[10px] sm:text-xs text-slate-400 mb-2 line-clamp-2 hidden sm:block">{{ p.description }}</p>
                 </div>
 
                 <div>
-                    <!-- Price and Buy Button -->
-                    <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                    <!-- Price and Action -->
+                    <div class="pt-1.5 sm:pt-3 border-t border-slate-800/80 flex items-center justify-between">
                         <div>
-                            <span class="text-[10px] text-slate-400 block">Harga Spesial</span>
-                            <span class="text-lg font-black text-cyan-400 font-brand">Rp {{ "{:,}".format(p.selling_price).replace(',', '.') }}</span>
+                            <span class="text-[8px] text-slate-400 block sm:hidden">Harga</span>
+                            <span class="text-[11px] sm:text-base font-black text-cyan-400 font-brand">Rp {{ "{:,}".format(p.selling_price).replace(',', '.') }}</span>
                         </div>
-                        <button onclick='openOrderModal({{ p | tojson }})' class="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-extrabold text-xs shadow-md shadow-cyan-500/20 transition flex items-center gap-1.5">
-                            <span>Order</span>
-                            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        <button class="px-2 py-0.5 sm:px-3 sm:py-1.5 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 text-black font-black text-[9px] sm:text-xs shadow-sm transition">
+                            Order
                         </button>
                     </div>
                 </div>
@@ -152,72 +156,119 @@
         </div>
     </main>
 
-    <!-- Modal Order Popup -->
-    <div id="order-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
-        <div class="bg-cardbg border border-cyan-500/30 rounded-2xl max-w-md w-full p-6 shadow-2xl relative glow-cyan animate-fade-in">
+    <!-- Modal Order Checkout (Responsive Bottom-Sheet on Mobile) -->
+    <div id="order-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-end sm:items-center justify-center p-0 sm:p-4">
+        <div class="bg-cardbg border-t sm:border border-cyan-500/30 rounded-t-3xl sm:rounded-2xl max-w-md w-full p-4 sm:p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto no-scrollbar">
+            
+            <!-- Mobile Grab Handle Bar -->
+            <div class="w-12 h-1.5 rounded-full bg-slate-700 mx-auto mb-3 sm:hidden"></div>
+
             <!-- Close Button -->
-            <button onclick="closeOrderModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
-                <i class="fa-solid fa-xmark"></i>
+            <button onclick="closeOrderModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg w-8 h-8 rounded-full flex items-center justify-center bg-slate-800/60">
+                <i class="fa-solid fa-xmark text-sm"></i>
             </button>
 
             <!-- Modal Header -->
-            <div class="mb-4">
-                <span id="modal-product-brand" class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-800 uppercase"></span>
-                <h3 id="modal-product-name" class="text-lg font-black text-white mt-2"></h3>
-                <p class="text-xs text-cyan-400 font-bold mt-1" id="modal-product-price"></p>
+            <div class="mb-4 pr-8">
+                <span id="modal-product-brand" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-800 uppercase"></span>
+                <h3 id="modal-product-name" class="text-sm sm:text-lg font-black text-white mt-1 leading-snug"></h3>
+                <p class="text-sm sm:text-base font-black text-cyan-400 font-brand mt-0.5" id="modal-product-price"></p>
             </div>
 
             <!-- Form Inputs -->
-            <form id="order-form" onsubmit="submitOrder(event)" class="space-y-4">
+            <form id="order-form" onsubmit="submitOrder(event)" class="space-y-3">
                 <input type="hidden" id="modal-product-code">
                 
                 <!-- Input Akun Game (ID & Zone) -->
-                <div id="field-game-inputs" class="space-y-3">
+                <div id="field-game-inputs" class="space-y-2">
                     <div>
                         <label class="block text-xs font-semibold text-slate-300 mb-1">User ID Game</label>
-                        <input type="text" id="input-game-id" placeholder="Contoh: 12345678" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-cyan-400">
+                        <input type="text" id="input-game-id" placeholder="Contoh: 12345678" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-cyan-400">
                     </div>
                     <div id="field-zone-container">
                         <label class="block text-xs font-semibold text-slate-300 mb-1">Zone ID / Server ID</label>
-                        <input type="text" id="input-zone-id" placeholder="Contoh: 2024" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-cyan-400">
+                        <input type="text" id="input-zone-id" placeholder="Contoh: 2024" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-cyan-400">
                     </div>
-                    <button type="button" onclick="checkNickname()" class="w-full py-1.5 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-cyan-300 border border-cyan-500/20 flex items-center justify-center gap-1.5 transition">
+                    <button type="button" onclick="checkNickname()" class="w-full py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-cyan-300 border border-cyan-500/20 flex items-center justify-center gap-1.5 transition">
                         <i class="fa-solid fa-magnifying-glass"></i> Cek Nickname Akun
                     </button>
-                    <div id="nickname-result" class="hidden text-xs p-2 rounded-lg bg-emerald-950/60 border border-emerald-500/30 text-emerald-300"></div>
+                    <div id="nickname-result" class="hidden text-xs p-2 rounded-xl bg-emerald-950/60 border border-emerald-500/30 text-emerald-300"></div>
                 </div>
 
                 <!-- Input Email untuk Akun Premium -->
                 <div id="field-email-container" class="hidden">
                     <label class="block text-xs font-semibold text-slate-300 mb-1">Email Anda (Untuk Terima Akun / Invite)</label>
-                    <input type="email" id="input-email" placeholder="nama@gmail.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-cyan-400">
+                    <input type="email" id="input-email" placeholder="nama@gmail.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-cyan-400">
                 </div>
 
                 <!-- Input Username untuk SMM -->
                 <div id="field-username-container" class="hidden">
                     <label class="block text-xs font-semibold text-slate-300 mb-1">Username / Link Target</label>
-                    <input type="text" id="input-username" placeholder="username_tanpa_tanda_at" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-cyan-400">
+                    <input type="text" id="input-username" placeholder="username_tanpa_tanda_at" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-cyan-400">
                 </div>
 
                 <!-- Nomor WhatsApp Pembeli (Wajib untuk notifikasi) -->
                 <div>
                     <label class="block text-xs font-semibold text-slate-300 mb-1">Nomor WhatsApp Aktif</label>
-                    <input type="text" id="input-whatsapp" required placeholder="08xxxxxxxxxx" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-cyan-400">
-                    <span class="text-[10px] text-slate-400 block mt-1">Struk QRIS & data akun akan otomatis terkirim ke nomor ini.</span>
+                    <input type="tel" id="input-whatsapp" required placeholder="08xxxxxxxxxx" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-cyan-400">
+                    <span class="text-[10px] text-slate-400 block mt-1">Struk & data pesanan akan otomatis dikirim ke nomor ini.</span>
                 </div>
 
+                <div id="order-error" class="hidden text-xs p-2.5 rounded-xl bg-red-950/60 border border-red-500/30 text-red-300"></div>
+
                 <!-- Submit Button -->
-                <button type="submit" id="btn-submit-order" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-black text-sm shadow-lg shadow-cyan-500/30 transition flex items-center justify-center gap-2">
+                <button type="submit" id="btn-submit-order" class="w-full py-2.5 sm:py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-black text-xs sm:text-sm shadow-lg shadow-cyan-500/30 transition flex items-center justify-center gap-2">
                     <i class="fa-solid fa-qrcode"></i> Lanjut Pembayaran QRIS
                 </button>
             </form>
         </div>
     </div>
 
+    <!-- Modal Lacak Pesanan -->
+    <div id="lookup-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-end sm:items-center justify-center p-0 sm:p-4">
+        <div class="bg-cardbg border-t sm:border border-slate-800 rounded-t-3xl sm:rounded-2xl max-w-md w-full p-4 sm:p-6 shadow-2xl relative max-h-[85vh] overflow-y-auto">
+            <button onclick="closeLookupModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg w-8 h-8 rounded-full flex items-center justify-center bg-slate-800/60">
+                <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
+            <h3 class="text-sm sm:text-base font-black text-white font-brand mb-1">LACAK PESANAN</h3>
+            <p class="text-xs text-slate-400 mb-3">Masukkan Invoice (ZTS-...) atau Nomor WhatsApp Anda.</p>
+
+            <div class="flex gap-2 mb-3">
+                <input type="text" id="lookup-input" placeholder="Invoice atau No WA" class="flex-grow bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400">
+                <button onclick="searchOrders()" class="px-3.5 py-2 rounded-xl bg-cyan-500 text-black font-bold text-xs">Cari</button>
+            </div>
+
+            <div id="lookup-results" class="space-y-2"></div>
+        </div>
+    </div>
+
+    <!-- Sticky Mobile Bottom Navigation Bar (Thumb Friendly) -->
+    <nav class="fixed bottom-0 inset-x-0 z-30 bg-darkbg/95 backdrop-blur-md border-t border-slate-800/80 flex items-center justify-around py-2 sm:hidden">
+        <a href="/" class="flex flex-col items-center text-cyan-400 text-[10px] font-bold">
+            <i class="fa-solid fa-store text-base mb-0.5"></i>
+            <span>Toko</span>
+        </a>
+        <button onclick="openLookupModal()" class="flex flex-col items-center text-slate-400 hover:text-slate-200 text-[10px] font-medium">
+            <i class="fa-solid fa-receipt text-base mb-0.5"></i>
+            <span>Lacak</span>
+        </button>
+        <a href="https://wa.me/{{ owner_whatsapp }}?text=Halo%20Prince%20Zesha,%20saya%20butuh%20bantuan%20terkait%20pesanan%20di%20ZTS%20Hub" target="_blank" class="flex flex-col items-center text-emerald-400 text-[10px] font-medium">
+            <i class="fa-brands fa-whatsapp text-base mb-0.5"></i>
+            <span>CS WA</span>
+        </a>
+        <a href="/admin" class="flex flex-col items-center text-slate-500 hover:text-slate-300 text-[10px] font-medium">
+            <i class="fa-solid fa-lock text-base mb-0.5"></i>
+            <span>Admin</span>
+        </a>
+    </nav>
+
     <!-- Footer -->
-    <footer class="border-t border-slate-800 bg-slate-950/60 py-6 text-center text-xs text-slate-400">
-        <p>© 2026 <strong>{{ store_name }}</strong>. Dikembangkan secara mandiri oleh Rexa AI untuk <strong>{{ store_owner }}</strong>.</p>
-        <p class="text-[11px] text-slate-400 mt-1">Hosting 24/7 Serverless Container • Host-to-Host Distributor Resmi Indonesia.</p>
+    <footer class="border-t border-slate-800/80 bg-slate-950/60 py-6 text-center text-xs text-slate-400">
+        <p>© 2026 <strong>{{ store_name }}</strong>. Terverifikasi oleh <strong>{{ store_owner }}</strong>.</p>
+        <p class="text-[11px] text-slate-400 mt-1">Host-to-Host Distributor Resmi Indonesia • Serverless Cloud 24 Jam.</p>
+        <div class="mt-2 text-[10px]">
+            <a href="/admin" class="text-slate-400 hover:text-slate-300">Akses Portal Pengelola</a>
+        </div>
     </footer>
 
     <script>
@@ -226,13 +277,13 @@
         function filterCategory(cat) {
             const tabs = document.querySelectorAll('.category-tab');
             tabs.forEach(t => {
-                t.classList.remove('bg-cyan-500', 'text-black', 'shadow-lg');
+                t.classList.remove('bg-cyan-500', 'text-black', 'shadow-md');
                 t.classList.add('bg-cardbg', 'text-slate-300');
             });
             const activeTab = document.getElementById('tab-' + cat);
             if (activeTab) {
                 activeTab.classList.remove('bg-cardbg', 'text-slate-300');
-                activeTab.classList.add('bg-cyan-500', 'text-black', 'shadow-lg');
+                activeTab.classList.add('bg-cyan-500', 'text-black', 'shadow-md');
             }
 
             const cards = document.querySelectorAll('.product-card');
@@ -252,14 +303,15 @@
             document.getElementById('modal-product-price').innerText = 'Rp ' + Number(product.selling_price).toLocaleString('id-ID');
             document.getElementById('modal-product-code').value = product.code;
 
-            // Atur input field berdasarkan jenis input
             const gameFields = document.getElementById('field-game-inputs');
             const zoneContainer = document.getElementById('field-zone-container');
             const emailContainer = document.getElementById('field-email-container');
             const usernameContainer = document.getElementById('field-username-container');
             const nicknameResult = document.getElementById('nickname-result');
-            nicknameResult.classList.add('hidden');
+            const orderErr = document.getElementById('order-error');
 
+            nicknameResult.classList.add('hidden');
+            orderErr.classList.add('hidden');
             gameFields.classList.add('hidden');
             emailContainer.classList.add('hidden');
             usernameContainer.classList.add('hidden');
@@ -285,6 +337,43 @@
             const modal = document.getElementById('order-modal');
             modal.classList.add('hidden');
             modal.classList.remove('flex');
+        }
+
+        function openLookupModal() {
+            document.getElementById('lookup-modal').classList.remove('hidden');
+            document.getElementById('lookup-modal').classList.add('flex');
+        }
+
+        function closeLookupModal() {
+            document.getElementById('lookup-modal').classList.add('hidden');
+            document.getElementById('lookup-modal').classList.remove('flex');
+        }
+
+        async function searchOrders() {
+            const q = document.getElementById('lookup-input').value.trim();
+            const resBox = document.getElementById('lookup-results');
+            if (!q) return;
+
+            resBox.innerHTML = '<p class="text-xs text-slate-400">Mencari pesanan...</p>';
+            try {
+                const resp = await fetch('/api/order/lookup?query=' + encodeURIComponent(q));
+                const data = await resp.json();
+                if (data.orders && data.orders.length > 0) {
+                    resBox.innerHTML = data.orders.map(o => `
+                        <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800 text-xs">
+                            <div class="flex justify-between font-bold">
+                                <a href="/order/${o.invoice}" class="text-cyan-400 underline">${o.invoice}</a>
+                                <span class="${o.status === 'SUCCESS' ? 'text-emerald-400' : 'text-yellow-400'}">${o.status}</span>
+                            </div>
+                            <p class="text-slate-300 mt-1">${o.product_name} - Rp ${Number(o.selling_price).toLocaleString('id-ID')}</p>
+                        </div>
+                    `).join('');
+                } else {
+                    resBox.innerHTML = '<p class="text-xs text-slate-400">Pesanan tidak ditemukan.</p>';
+                }
+            } catch(e) {
+                resBox.innerHTML = '<p class="text-xs text-red-400">Gagal mengambil data.</p>';
+            }
         }
 
         async function checkNickname() {
@@ -323,6 +412,9 @@
         async function submitOrder(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-submit-order');
+            const errDiv = document.getElementById('order-error');
+            errDiv.classList.add('hidden');
+
             btn.disabled = true;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyiapkan QRIS...';
 
@@ -354,12 +446,14 @@
                 if (data.success) {
                     window.location.href = '/order/' + data.invoice;
                 } else {
-                    alert('Gagal membuat pesanan: ' + data.message);
+                    errDiv.innerText = data.message || (data.detail && data.detail[0] ? data.detail[0].msg : 'Gagal membuat pesanan');
+                    errDiv.classList.remove('hidden');
                     btn.disabled = false;
                     btn.innerHTML = '<i class="fa-solid fa-qrcode"></i> Lanjut Pembayaran QRIS';
                 }
             } catch(err) {
-                alert('Kendala jaringan. Coba lagi.');
+                errDiv.innerText = 'Kendala jaringan. Silakan coba kembali.';
+                errDiv.classList.remove('hidden');
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fa-solid fa-qrcode"></i> Lanjut Pembayaran QRIS';
             }

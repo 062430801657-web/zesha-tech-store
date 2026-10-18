@@ -10,7 +10,7 @@ else:
 # Server Configuration
 PORT = int(os.environ.get("PORT", 8000))
 HOST = os.environ.get("HOST", "0.0.0.0")
-SECRET_KEY = os.environ.get("SECRET_KEY", "zesha-super-secret-key-2026")
+SECRET_KEY = os.environ.get("SECRET_KEY", "zesha-sec-token-98f237bc9401")
 ADMIN_PIN = os.environ.get("ADMIN_PIN", "666888")
 
 # Brand Information

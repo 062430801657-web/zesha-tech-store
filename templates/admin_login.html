@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Security Gate - {{ store_name }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #080C15; color: #F8FAFC; }
+        .font-brand { font-family: 'Space Grotesk', sans-serif; }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <div class="max-w-sm w-full bg-[#0E1626] rounded-3xl p-6 sm:p-8 border border-cyan-500/30 shadow-2xl relative text-center">
+        <!-- Logo -->
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center text-black font-black text-2xl font-brand mx-auto mb-4 shadow-lg shadow-cyan-500/30">
+            <i class="fa-solid fa-lock text-xl"></i>
+        </div>
+
+        <h1 class="text-lg font-black text-white font-brand">ADMIN SECURITY GATE</h1>
+        <p class="text-xs text-slate-400 mt-1 mb-6">Masukkan PIN Keamanan untuk membuka Dasbor Eksekutif Prince Zesha.</p>
+
+        <form id="login-form" onsubmit="submitPin(event)" class="space-y-4">
+            <div>
+                <input type="password" id="input-pin" maxlength="10" placeholder="••••••" required autofocus class="w-full text-center tracking-[0.5em] text-2xl font-mono bg-slate-900 border border-slate-700 rounded-2xl py-3 px-4 text-cyan-300 focus:outline-none focus:border-cyan-400">
+            </div>
+
+            <div id="error-msg" class="hidden text-xs text-red-400 p-2 rounded-xl bg-red-950/60 border border-red-500/30"></div>
+
+            <button type="submit" id="btn-login" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-black text-xs shadow-lg shadow-cyan-500/30 transition flex items-center justify-center gap-2">
+                <i class="fa-solid fa-key"></i> Buka Dasbor Admin
+            </button>
+        </form>
+
+        <div class="mt-6 pt-4 border-t border-slate-800">
+            <a href="/" class="text-xs text-slate-400 hover:text-cyan-400 transition flex items-center justify-center gap-1">
+                <i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Toko
+            </a>
+        </div>
+    </div>
+
+    <script>
+        async function submitPin(e) {
+            e.preventDefault();
+            const pin = document.getElementById('input-pin').value.trim();
+            const errDiv = document.getElementById('error-msg');
+            const btn = document.getElementById('btn-login');
+
+            errDiv.classList.add('hidden');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memverifikasi PIN...';
+
+            try {
+                const resp = await fetch('/api/admin/auth', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ pin: pin })
+                });
+                const res = await resp.json();
+                if (res.success) {
+                    window.location.reload();
+                } else {
+                    errDiv.innerText = res.message || 'PIN Admin Salah';
+                    errDiv.classList.remove('hidden');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fa-solid fa-key"></i> Buka Dasbor Admin';
+                }
+            } catch(e) {
+                errDiv.innerText = 'Kendala koneksi ke server.';
+                errDiv.classList.remove('hidden');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-key"></i> Buka Dasbor Admin';
+            }
+        }
+    </script>
+</body>
+</html>

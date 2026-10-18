@@ -3,3 +3,4 @@ __pycache__/
 data/zts_store.db
 .env
 .venv/
+.vercel

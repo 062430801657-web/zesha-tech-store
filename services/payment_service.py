@@ -1,18 +1,30 @@
 import time
 import random
+import hmac
 import hashlib
 import urllib.parse
-from config import PAYMENT_GATEWAY, TRIPAY_API_KEY, TRIPAY_PRIVATE_KEY, TRIPAY_MERCHANT_CODE
+from config import SECRET_KEY, PAYMENT_GATEWAY, TRIPAY_API_KEY, TRIPAY_PRIVATE_KEY, TRIPAY_MERCHANT_CODE
 from database import update_order_status
 from services.supplier_service import SupplierService
 
 class PaymentService:
     @staticmethod
+    def generate_signature(invoice: str) -> str:
+        """Menghasilkan signature HMAC-SHA256 anti-pemalsuan webhook"""
+        return hmac.new(SECRET_KEY.encode(), invoice.encode(), hashlib.sha256).hexdigest()
+
+    @staticmethod
+    def verify_signature(invoice: str, signature: str) -> bool:
+        """Memverifikasi signature webhook secara aman (constant-time compare)"""
+        if not signature:
+            return False
+        expected = PaymentService.generate_signature(invoice)
+        return hmac.compare_digest(expected, signature)
+
+    @staticmethod
     def generate_qris(invoice, amount):
         """Membuat payload QRIS Dinamis standar ASPI / Bank Indonesia"""
         timestamp = int(time.time())
-        # Format string payload QRIS Standar (EMVCo QRIS string)
-        # Kami gunakan generator QR Code visual via quickchart / api.qrserver
         qris_string = f"00020101021226670014ID.LINKAJA.WWW01189360091800000000000215{invoice}520458125303360540{len(str(amount)):02d}{amount}5802ID5916ZESHA TECH STORE6009PALEMBANG61053013962270723{invoice}6304A1B2"
         
         encoded_string = urllib.parse.quote(qris_string)
@@ -21,7 +33,8 @@ class PaymentService:
         return {
             "qris_string": qris_string,
             "qris_image_url": qris_image_url,
-            "expired_at": timestamp + (15 * 60)  # 15 menit
+            "signature": PaymentService.generate_signature(invoice),
+            "expired_at": timestamp + (15 * 60)
         }
 
     @staticmethod
