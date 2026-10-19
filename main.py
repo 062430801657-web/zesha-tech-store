@@ -1,5 +1,6 @@
 import os
 import re
+import json
 import time
 import random
 import hmac
@@ -278,6 +279,46 @@ async def api_webhook_payment(req: WebhookPaymentRequest, request: Request):
     # Proses pengiriman produk otomatis H2H
     dispatch_res = PaymentService.process_successful_payment(order)
     return dispatch_res
+
+# ─── AUTO-SETTLEMENT TRIPAY & PAKASIR WEBHOOK CALLBACK ───
+@app.post("/api/webhook/tripay")
+async def api_webhook_tripay(request: Request):
+    try:
+        body = await request.body()
+        data = json.loads(body.decode())
+        incoming_sign = request.headers.get("X-Callback-Signature", "")
+        
+        # Verifikasi signature Tripay: HMAC-SHA256(body, private_key)
+        from config import TRIPAY_PRIVATE_KEY
+        if TRIPAY_PRIVATE_KEY and TRIPAY_PRIVATE_KEY != "mock-private-key":
+            expected = hmac.new(TRIPAY_PRIVATE_KEY.encode(), body, hashlib.sha256).hexdigest()
+            if not hmac.compare_digest(expected, incoming_sign):
+                return JSONResponse(status_code=403, content={"success": False, "message": "Invalid Tripay Signature"})
+
+        merchant_ref = data.get("merchant_ref")
+        status = data.get("status", "").upper()
+        if merchant_ref and status == "PAID":
+            order = get_order_by_invoice(merchant_ref)
+            if order and order["status"] != "SUCCESS":
+                PaymentService.process_successful_payment(order)
+                return {"success": True, "message": "Tripay payment settled successfully"}
+
+        return {"success": True}
+    except Exception as e:
+        return JSONResponse(status_code=400, content={"success": False, "error": str(e)})
+
+@app.post("/api/admin/order/{invoice}/approve")
+async def api_admin_approve_order(invoice: str, request: Request):
+    """Admin manual override: Konfirmasi pembayaran langsung dari dashboard admin"""
+    if not is_admin_authenticated(request):
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    clean_inv = re.sub(r"[^\w\-]", "", invoice)
+    order = get_order_by_invoice(clean_inv)
+    if not order:
+        return {"status": "FAILED", "message": "Invoice tidak ditemukan."}
+    
+    dispatch_res = PaymentService.process_successful_payment(order)
+    return {"status": "SUCCESS", "message": f"Order {clean_inv} berhasil disetujui & diproses otomatis!", "detail": dispatch_res}
 
 @app.get("/api/admin/stats")
 async def api_admin_stats(request: Request):
